@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rabi Oscillations | Answer Key</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue:       #1A5276;
+      --blue-light: #D6EAF8;
+      --blue-mid:   #2E86C1;
+      --green:      #1a6b3a;
+      --green-bg:   #d4edda;
+      --gray-bg:    #F7F9FC;
+      --gray-line:  #CBD5E0;
+      --text:       #1a202c;
+      --muted:      #4A5568;
+      --white:      #ffffff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: #f0f4f8;
+      line-height: 1.6;
+    }
+
+    .screen-bar {
+      background: rgba(10, 14, 23, 0.88);
+      backdrop-filter: blur(12px);
+      color: #94a3b8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 10%;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .screen-bar .logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #2E86C1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      text-shadow: 0 0 10px rgba(46,134,193,0.4);
+    }
+
+    .screen-bar nav a {
+      color: #94a3b8;
+      text-decoration: none;
+      margin-left: 2rem;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+
+    .screen-bar nav a:hover, .screen-bar nav a.active { color: #2E86C1; }
+
+    .print-btn {
+      background: rgba(46,134,193,0.1);
+      color: #2E86C1;
+      border: 1px solid rgba(46,134,193,0.3);
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      padding: 5px 14px;
+      border-radius: 3px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .print-btn:hover { background: rgba(46,134,193,0.2); }
+
+    .page {
+      max-width: 860px;
+      margin: 32px auto;
+      background: var(--white);
+      box-shadow: 0 4px 32px rgba(0,0,0,0.12);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .title-block {
+      background: var(--green);
+      padding: 36px 48px 28px;
+    }
+
+    .ak-badge {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      padding: 3px 12px;
+      border-radius: 2px;
+      margin-bottom: 12px;
+    }
+
+    .title-block h1 {
+      font-family: 'Space Mono', monospace;
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .title-block .subtitle {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      font-weight: 300;
+    }
+
+    .content { padding: 40px 48px 48px; }
+
+    .part-header {
+      background: var(--blue);
+      color: #fff;
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 10px 16px;
+      margin: 36px -48px 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .part-num {
+      background: rgba(255,255,255,0.15);
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 2px;
+      letter-spacing: 2px;
+    }
+
+    .qa-block { margin: 20px 0; }
+
+    .q-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 8px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .q-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--blue);
+      min-width: 24px;
+      padding-top: 1px;
+      flex-shrink: 0;
+    }
+
+    .answer {
+      margin-left: 34px;
+      background: var(--green-bg);
+      border-left: 3px solid var(--green);
+      border-radius: 0 4px 4px 0;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #1a3d2b;
+    }
+
+    .answer strong { color: var(--green); }
+
+    .sub-answer { margin: 6px 0 2px 34px; font-size: 13px; color: var(--muted); font-weight: 500; }
+
+    .activity-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin: 28px 0 6px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--blue-light);
+    }
+
+    .data-table-wrap { overflow-x: auto; margin: 14px 0 20px; }
+
+    table.data { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+
+    table.data th {
+      background: var(--blue-light);
+      color: var(--blue);
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      text-align: center;
+      padding: 8px 10px;
+      border: 1px solid #AED6F1;
+    }
+
+    table.data td {
+      border: 1px solid #CBD5E0;
+      padding: 8px 10px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    table.data td.given {
+      background: #F7F9FC;
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+    }
+
+    table.data td.ans {
+      background: var(--green-bg);
+      color: #1a3d2b;
+      font-weight: 500;
+    }
+
+    .pulse-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 20px;
+    }
+
+    .pulse-card { border: 1px solid #CBD5E0; border-radius: 4px; overflow: hidden; }
+    .pulse-card-header {
+      padding: 8px 14px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .pulse-card.pi2 .pulse-card-header { background: #FDEBD0; color: #E67E22; }
+    .pulse-card.pi  .pulse-card-header { background: var(--blue-light); color: var(--blue); }
+    .pulse-card-body { padding: 12px 14px; }
+
+    .pulse-field { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; font-size: 13px; }
+    .pulse-field label { color: var(--muted); white-space: nowrap; min-width: 110px; }
+    .pulse-field .ans-val { color: #1a3d2b; font-weight: 600; background: var(--green-bg); padding: 1px 8px; border-radius: 3px; }
+
+    .divider { border: none; border-top: 1px solid #E2E8F0; margin: 28px 0; }
+
+    .download-bar {
+      padding: 20px 48px 24px;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .download-bar p { font-size: 12px; color: var(--muted); }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green);
+      color: white;
+      border: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 10px 24px;
+      border-radius: 3px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .download-btn:hover { background: #145a32; }
+
+    @media print {
+      body { background: white; }
+      .screen-bar, .download-bar { display: none; }
+      .page { box-shadow: none; margin: 0; border-radius: 0; max-width: 100%; }
+      .title-block { background: var(--green) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .answer { background: #d4edda !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      table.data td.ans { background: #d4edda !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .part-header { background: var(--blue) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .qa-block { page-break-inside: avoid; }
+      .data-table-wrap { page-break-inside: avoid; }
+      .pulse-grid { page-break-inside: avoid; }
+      @page { margin: 0.65in; }
+    }
+
+    @media (max-width: 640px) {
+      .content { padding: 24px 20px; }
+      .title-block { padding: 24px 20px; }
+      .part-header { margin: 28px -20px 20px; }
+      .pulse-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="screen-bar">
+  <a class="logo" href="index.html">Rabi Oscillations</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="worksheet.html">Worksheet</a>
+    <a href="#" class="active">Answer Key</a>
+  </nav>
+  <button class="print-btn" onclick="window.print()">Print / Save PDF</button>
+</div>
+
+<div class="page">
+
+  <div class="title-block">
+    <div class="ak-badge">Teacher Copy</div>
+    <h1>Rabi Oscillations Simulation</h1>
+    <div class="subtitle">Answer Key</div>
+  </div>
+
+  <div class="content">
+
+    <!-- PART II -->
+    <div class="part-header"><span class="part-num">PART II</span> Before You Start</div>
+
+    <div class="qa-block">
+      <div class="q-text"><span class="q-num">1.</span><span>In your own words, what is resonance? Give one example from everyday life that is <em>not</em> the swing.</span></div>
+      <div class="answer">Resonance is when a periodic driving force matches the natural frequency of a system, allowing energy to build up efficiently. Examples: a singer shattering a glass; a radio tuned to a station; a bridge oscillating in wind; pushing someone on a swing at the right moment.</div>
+    </div>
+
+    <div class="qa-block">
+      <div class="q-text"><span class="q-num">2.</span><span>A classical system driven at resonance grows in amplitude over time. Predict what will happen to a qubit driven at its resonant frequency. Will it keep gaining energy forever? Why or why not?</span></div>
+      <div class="answer">No. Unlike a swing, the qubit oscillates <strong>back and forth</strong> between |0⟩ and |1⟩ — it cannot go "above" |1⟩ since those are the only two states. The probability cycles between 0% and 100%; it never accumulates unboundedly.</div>
+    </div>
+
+    <div class="qa-block">
+      <div class="q-text"><span class="q-num">3.</span><span>What does it mean for a qubit to be in a 50/50 superposition of |0⟩ and |1⟩?</span></div>
+      <div class="answer">The qubit is genuinely in both states simultaneously with equal probability. If measured, it will randomly collapse to |0⟩ or |1⟩ with 50% probability each. It is not secretly one or the other before measurement.</div>
+    </div>
+
+    <!-- PART III -->
+    <div class="part-header"><span class="part-num">PART III</span> Simulation Exploration</div>
+
+    <div class="activity-label">Activity A: Effect of Rabi Frequency (&Omega;)</div>
+
+    <div class="data-table-wrap">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>&Omega; (rad/t)</th>
+            <th>Describe oscillation speed</th>
+            <th>Does |1⟩ reach 100%?</th>
+            <th>Approx. time to full inversion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="given">0.5</td>
+            <td class="ans">Slow</td>
+            <td class="ans">Yes</td>
+            <td class="ans">~6.3 t (&pi;/0.5)</td>
+          </tr>
+          <tr>
+            <td class="given">1.0</td>
+            <td class="ans">Medium</td>
+            <td class="ans">Yes</td>
+            <td class="ans">~3.1 t (&pi;/1.0)</td>
+          </tr>
+          <tr>
+            <td class="given">2.0</td>
+            <td class="ans">Fast</td>
+            <td class="ans">Yes</td>
+            <td class="ans">~1.6 t (&pi;/2.0)</td>
+          </tr>
+          <tr>
+            <td class="given">3.0</td>
+            <td class="ans">Very fast</td>
+            <td class="ans">Yes</td>
+            <td class="ans">~1.0 t (&pi;/3.0)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="qa-block">
+      <div class="q-text"><span class="q-num">4.</span><span>What pattern do you notice? How does changing &Omega; affect how fast the qubit oscillates?</span></div>
+      <div class="answer">A larger &Omega; produces a faster oscillation. The time to full inversion is &pi;/&Omega; — doubling &Omega; halves the inversion time. At resonance (&Delta; = 0), the qubit always reaches 100% regardless of &Omega;.</div>
+    </div>
+
+    <div class="qa-block">
+      <div class="q-text"><span class="q-num">5.</span><span>At &Delta; = 0, does P(|1⟩) ever go above 100%? Why not?</span></div>
+      <div class="answer">No. Probability is bounded between 0 and 1 by definition. A qubit has only two states; 100% means complete inversion to |1⟩, which is the maximum physically possible excitation.</div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="activity-label">Activity B: Effect of Detuning (&Delta;)</div>
+
+    <div class="data-table-wrap">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>&Delta;</th>
+            <th>&Omega;<sub>R</sub> = &radic;(&Omega;&sup2; + &Delta;&sup2;)</th>
+            <th>Max P(|1⟩) reached</th>
+            <th>Faster or slower than &Delta;=0?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="given">0.0</td>
+            <td class="given">1.00</td>
+            <td class="ans">100%</td>
+            <td class="ans">Reference</td>
+          </tr>
+          <tr>
+            <td class="given">0.5</td>
+            <td class="ans">1.12</td>
+            <td class="ans">~80%</td>
+            <td class="ans">Faster</td>
+          </tr>
+          <tr>
+            <td class="given">1.0</td>
+            <td class="ans">1.41</td>
+            <td class="ans">~50%</td>
+            <td class="ans">Faster</td>
+          </tr>
+          <tr>
+            <td class="given">2.0</td>
+            <td class="ans">2.24</td>
+            <td class="ans">~20%</td>
+            <td class="ans">Faster</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="qa-block">
+      <div class="q-text"><span class="q-num">6.</span><span>As you increase &Delta;, what happens to how high P(|1⟩) gets? Why can't the qubit fully flip when the frequency is off?</span></div>
+      <div class="answer">Max P(|1⟩) decreases as &Delta; increases. The driving field is no longer perfectly in sync with the qubit's natural frequency, so energy transfer is incomplete — some energy is wasted on the phase mismatch, and the qubit can't be fully inverted. Max excitation = (&Omega;/&Omega;<sub>R</sub>)&sup2;.</div>
+    </div>
+
+    <div class="qa-block">
+      <div class="q-text"><span class="q-num">7.</span><span>Does a bigger &Delta; speed up or slow down the oscillation? Does that match what the &Omega;<sub>R</sub> formula predicts?</span></div>
+      <div class="answer">A bigger &Delta; speeds up the oscillation. Yes — the formula &Omega;<sub>R</sub> = &radic;(&Omega;&sup2; + &Delta;&sup2;) shows that adding &Delta; always increases &Omega;<sub>R</sub>, which is the frequency of oscillation. A higher frequency means a shorter cycle time.</div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="activity-label">Activity C: Pulses and Quantum Gates</div>
+
+    <div class="pulse-grid">
+      <div class="pulse-card pi2">
+        <div class="pulse-card-header">&pi;/2 Pulse: Superposition Gate</div>
+        <div class="pulse-card-body">
+          <div class="pulse-field"><label>P(|0⟩) after pulse:</label><span class="ans-val">50%</span></div>
+          <div class="pulse-field"><label>P(|1⟩) after pulse:</label><span class="ans-val">50%</span></div>
+          <div class="pulse-field"><label>Gate name:</label><span class="ans-val">Hadamard (H gate)</span></div>
+        </div>
+      </div>
+      <div class="pulse-card pi">
+        <div class="pulse-card-header">&pi; Pulse: Inversion Gate</div>
+        <div class="pulse-card-body">
+          <div class="pulse-field"><label>P(|0⟩) after pulse:</label><span class="ans-val">0%</span></div>
+          <div class="pulse-field"><label>P(|1⟩) after pulse:</label><span class="ans-val">100%</span></div>
+          <div class="pulse-field"><label>Gate name:</label><span class="ans-val">NOT gate (X gate)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="qa-block">
+      <div class="q-text"><span class="q-num">8.</span><span>After a &pi;/2 pulse with the laser off, you measure the qubit many times. What result do you expect on average? Why?</span></div>
+      <div class="answer">On average, |0⟩ half the time and |1⟩ half the time. The qubit is frozen in a 50/50 superposition; each measurement independently collapses it with equal probability to either state.</div>
+    </div>
+
+    <div class="qa-block">
+      <div class="q-text"><span class="q-num">9.</span><span>Apply two &pi; pulses in a row starting from |0⟩. Predict the result first, then verify in the simulation.</span></div>
+      <div class="sub-answer">a) Prediction:</div>
+      <div class="answer" style="margin-top:4px;">The qubit should return to |0⟩ — two full inversions cancel out.</div>
+      <div class="sub-answer" style="margin-top:8px;">b) What the simulation showed:</div>
+      <div class="answer" style="margin-top:4px;">P(|0⟩) = 100%, P(|1⟩) = 0%. The state returns to |0⟩, confirming that two &pi; pulses are equivalent to the identity operation.</div>
+    </div>
+
+    <!-- PART IV -->
+    <div class="part-header"><span class="part-num">PART IV</span> Analysis and Synthesis</div>
+
+    <div class="qa-block">
+      <div class="q-text"><span class="q-num">10.</span><span>How are Rabi oscillations similar to a swing? What is one way they are completely different?</span></div>
+      <div class="sub-answer">a) Similarity:</div>
+      <div class="answer" style="margin-top:4px;">Both involve a periodic driving force matched to a natural frequency causing maximum energy transfer.</div>
+      <div class="sub-answer" style="margin-top:8px;">b) Fundamental difference:</div>
+      <div class="answer" style="margin-top:4px;">A swing's amplitude grows indefinitely with sustained driving; a qubit oscillates between exactly two states and can never exceed 100% excitation. The qubit also exists in superposition — it genuinely occupies both states simultaneously, which has no classical analogue.</div>
+    </div>
+
+    <div class="qa-block">
+      <div class="q-text"><span class="q-num">11.</span><span>If you were using this to flip a qubit in a real quantum computer, what two things could cause it to go wrong?</span></div>
+      <div class="sub-answer">a) Factor 1:</div>
+      <div class="answer" style="margin-top:4px;"><strong>Detuning (&Delta; &ne; 0)</strong> — if the drive frequency doesn't exactly match the qubit's transition frequency, full inversion is impossible and the gate will be imperfect.</div>
+      <div class="sub-answer" style="margin-top:8px;">b) Factor 2:</div>
+      <div class="answer" style="margin-top:4px;"><strong>Mistimed pulse duration</strong> — stopping the drive at the wrong moment leaves the qubit at an intermediate state rather than fully in |1⟩. The pulse must last exactly &pi;/&Omega;<sub>R</sub>.</div>
+    </div>
+
+    <div class="qa-block">
+      <div class="q-text"><span class="q-num">12.</span><span>The second is defined by 9,192,631,770 oscillations of a cesium-133 atom (a Rabi-type transition). Why would scientists define time using an atomic oscillation instead of a mechanical clock?</span></div>
+      <div class="answer">Every cesium-133 atom in the universe oscillates at exactly the same frequency — it is a physical constant, not subject to wear, temperature change, gravity, or manufacturing variation. Mechanical clocks degrade and drift; atomic transitions are identical and stable to one part in 10<sup>14</sup>, making them far more precise and reproducible as a time standard.</div>
+    </div>
+
+  </div>
+
+  <div class="download-bar">
+    <p>Print or save as PDF for a clean teacher copy.</p>
+    <button class="download-btn" onclick="window.print()">&#8595; Download Answer Key PDF</button>
+  </div>
+
+</div>
+</body>
+</html>

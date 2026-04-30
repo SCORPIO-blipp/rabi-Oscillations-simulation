@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rabi Oscillations | Student Worksheet</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue:       #1A5276;
+      --blue-light: #D6EAF8;
+      --blue-mid:   #2E86C1;
+      --accent:     #00f2fe;
+      --orange:     #E67E22;
+      --orange-bg:  #FDEBD0;
+      --purple:     #6C3483;
+      --purple-bg:  #F5EEF8;
+      --gray-bg:    #F7F9FC;
+      --gray-line:  #CBD5E0;
+      --text:       #1a202c;
+      --muted:      #4A5568;
+      --white:      #ffffff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: #f0f4f8;
+      line-height: 1.6;
+    }
+
+    .screen-bar {
+      background: rgba(10, 14, 23, 0.88);
+      backdrop-filter: blur(12px);
+      color: #94a3b8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 10%;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .screen-bar .logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #2E86C1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px rgba(46,134,193,0.4);
+    }
+
+    .screen-bar nav a {
+      color: #94a3b8;
+      text-decoration: none;
+      margin-left: 2rem;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+
+    .screen-bar nav a:hover, .screen-bar nav a.active { color: #2E86C1; }
+
+    .print-btn {
+      background: rgba(0,242,254,0.1);
+      color: #00f2fe;
+      border: 1px solid rgba(0,242,254,0.3);
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      padding: 5px 14px;
+      border-radius: 3px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .print-btn:hover {
+      background: rgba(0,242,254,0.2);
+      box-shadow: 0 0 10px rgba(0,242,254,0.2);
+    }
+
+    .page {
+      max-width: 860px;
+      margin: 32px auto;
+      background: var(--white);
+      box-shadow: 0 4px 32px rgba(0,0,0,0.12);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .title-block {
+      background: var(--blue);
+      padding: 36px 48px 32px;
+    }
+
+    .title-block .lab-name {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #A9D1F5;
+      margin-bottom: 8px;
+    }
+
+    .title-block h1 {
+      font-family: 'Space Mono', monospace;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .title-block .subtitle {
+      font-size: 14px;
+      color: #D6EAF8;
+      font-weight: 300;
+      margin-bottom: 28px;
+    }
+
+    .meta-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 24px;
+    }
+
+    .meta-field label {
+      display: block;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #A9D1F5;
+      margin-bottom: 4px;
+    }
+
+    .meta-field .field-line {
+      border: none;
+      border-bottom: 1.5px solid rgba(255,255,255,0.35);
+      background: transparent;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      width: 100%;
+      padding: 3px 0;
+      outline: none;
+    }
+
+    .meta-field .field-line::placeholder { color: rgba(255,255,255,0.2); }
+
+    .content { padding: 40px 48px 48px; }
+
+    .part-header {
+      background: var(--blue);
+      color: var(--white);
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 10px 16px;
+      margin: 36px -48px 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .part-num {
+      background: rgba(255,255,255,0.15);
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 2px;
+      letter-spacing: 2px;
+    }
+
+    .callout {
+      border-radius: 4px;
+      padding: 16px 20px;
+      margin: 16px 0;
+    }
+
+    .callout-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .callout p { font-size: 13px; line-height: 1.65; color: var(--muted); }
+
+    .callout.blue { background: var(--blue-light); border-left: 4px solid var(--blue); }
+    .callout.blue .callout-label { color: var(--blue); }
+
+    .callout.orange { background: var(--orange-bg); border-left: 4px solid var(--orange); }
+    .callout.orange .callout-label { color: var(--orange); }
+
+    .callout.purple { background: var(--purple-bg); border-left: 4px solid var(--purple); }
+    .callout.purple .callout-label { color: var(--purple); }
+
+    .objectives {
+      background: var(--blue-light);
+      border: 1px solid #AED6F1;
+      border-radius: 4px;
+      padding: 16px 20px;
+      margin-bottom: 8px;
+    }
+
+    .objectives .obj-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 10px;
+    }
+
+    .objectives ul { padding-left: 0; list-style: none; }
+
+    .objectives ul li {
+      font-size: 13px;
+      color: var(--muted);
+      padding: 4px 0 4px 20px;
+      position: relative;
+      border-bottom: 1px solid rgba(26,82,118,0.1);
+    }
+
+    .objectives ul li:last-child { border-bottom: none; }
+
+    .objectives ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--blue-mid);
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+    }
+
+    .question { margin: 20px 0; padding-bottom: 4px; }
+
+    .q-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 10px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .q-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--blue);
+      min-width: 24px;
+      padding-top: 1px;
+    }
+
+    .sub-question {
+      margin: 8px 0 4px 34px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .answer-inputs { margin: 6px 0 6px 34px; }
+
+    .answer-line {
+      width: 100%;
+      border: none;
+      border-bottom: 1.5px solid var(--gray-line);
+      background: transparent;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      padding: 4px 0;
+      outline: none;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .answer-line:focus { border-bottom-color: var(--blue-mid); }
+
+    .answer-ta {
+      width: calc(100% - 34px);
+      margin-left: 34px;
+      border: 1.5px solid var(--gray-line);
+      border-radius: 3px;
+      background: var(--gray-bg);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      padding: 8px 10px;
+      outline: none;
+      resize: vertical;
+      display: block;
+    }
+
+    .answer-ta:focus { border-color: var(--blue-mid); }
+
+    .activity-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin: 28px 0 6px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--blue-light);
+    }
+
+    .activity-desc {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 14px;
+      font-style: italic;
+    }
+
+    .data-table-wrap { overflow-x: auto; margin: 14px 0; }
+
+    table.data { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+
+    table.data th {
+      background: var(--blue-light);
+      color: var(--blue);
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      text-align: center;
+      padding: 8px 10px;
+      border: 1px solid #AED6F1;
+    }
+
+    table.data td {
+      border: 1px solid #CBD5E0;
+      padding: 0;
+      text-align: center;
+      height: 36px;
+      background: var(--white);
+    }
+
+    table.data td.given {
+      background: #F7F9FC;
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      padding: 8px 10px;
+    }
+
+    table.data td input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: transparent;
+      text-align: center;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      padding: 0 6px;
+      outline: none;
+      color: var(--text);
+    }
+
+    table.data td input:focus { background: #EBF5FB; }
+
+    .pulse-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 20px;
+    }
+
+    .pulse-card { border: 1px solid #CBD5E0; border-radius: 4px; overflow: hidden; }
+
+    .pulse-card-header {
+      padding: 8px 14px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .pulse-card.pi2 .pulse-card-header { background: var(--orange-bg); color: var(--orange); }
+    .pulse-card.pi  .pulse-card-header { background: var(--blue-light); color: var(--blue); }
+    .pulse-card-body { padding: 12px 14px; }
+
+    .pulse-field { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .pulse-field label { font-size: 12px; color: var(--muted); white-space: nowrap; min-width: 110px; }
+    .pulse-field input {
+      flex: 1;
+      border: none;
+      border-bottom: 1.5px solid var(--gray-line);
+      background: transparent;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      padding: 2px 0;
+      outline: none;
+      color: var(--text);
+    }
+    .pulse-field input:focus { border-bottom-color: var(--blue-mid); }
+
+    .divider { border: none; border-top: 1px solid #E2E8F0; margin: 28px 0; }
+
+    .confidence-scale { display: flex; gap: 16px; align-items: center; margin: 10px 34px; flex-wrap: wrap; }
+    .confidence-scale label { font-size: 12px; color: var(--muted); }
+    .conf-options { display: flex; gap: 16px; }
+    .conf-opt { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
+    .conf-opt input[type=radio] { accent-color: var(--blue); width: 16px; height: 16px; cursor: pointer; }
+    .conf-opt span { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted); }
+
+    .ws-footer {
+      background: var(--blue);
+      padding: 12px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ws-footer span {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: #A9D1F5;
+      letter-spacing: 1px;
+    }
+
+    /* Print name header (hidden on screen) */
+    .print-header { display: none; }
+
+    /* Screen name / grade row */
+    .student-info-row {
+      display: flex;
+      gap: 20px;
+      align-items: flex-end;
+      padding: 18px 0 20px;
+      border-bottom: 1px solid #e2e8f0;
+      margin-bottom: 8px;
+    }
+
+    .si-field { display: flex; flex-direction: column; gap: 5px; }
+    .si-field.wide  { flex: 2; }
+    .si-field.narrow { flex: 1; }
+
+    .si-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .si-input {
+      border: none;
+      border-bottom: 2px solid var(--gray-line);
+      background: transparent;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      padding: 4px 0;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s;
+    }
+
+    .si-input:focus { border-bottom-color: var(--blue-mid); }
+    .si-input::placeholder { color: #b0bec5; }
+
+    /* Download bar */
+    .download-bar {
+      padding: 20px 48px 24px;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .download-bar p {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--blue);
+      color: white;
+      border: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 10px 24px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .download-btn:hover {
+      background: var(--blue-mid);
+      box-shadow: 0 4px 14px rgba(26,82,118,0.3);
+    }
+
+    @media print {
+      body { background: white; font-size: 12px; }
+      .screen-bar, .download-bar, .student-info-row { display: none; }
+      .page { box-shadow: none; margin: 0; border-radius: 0; max-width: 100%; }
+      .content { padding: 20px 48px 32px; }
+
+      /* Show the name/date/class fields */
+      .print-header {
+        display: block;
+        padding-bottom: 18px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #CBD5E0;
+      }
+
+      .print-header-row {
+        display: flex;
+        gap: 32px;
+        margin-bottom: 14px;
+      }
+
+      .print-header-row:last-child { margin-bottom: 0; }
+
+      .ph-field {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+
+      .ph-field.wide { flex: 2; }
+      .ph-field.narrow { flex: 1; }
+
+      .ph-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 8px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #718096;
+      }
+
+      .ph-line {
+        display: block;
+        border-bottom: 1.5px solid #1a202c;
+        height: 18px;
+      }
+
+      /* Title block: strip dark background */
+      .title-block {
+        background: white !important;
+        padding: 24px 48px 18px;
+        border-bottom: 3px solid var(--blue);
+      }
+
+      .title-block .lab-name { color: #1A5276; }
+      .title-block h1 { color: #1a202c; font-size: 22px; }
+      .title-block .subtitle { color: #4A5568; margin-bottom: 0; }
+
+      /* Part headers: strip dark background */
+      .part-header {
+        background: white !important;
+        color: #1A5276 !important;
+        border-top: 1px solid #CBD5E0;
+        border-bottom: 2px solid #1A5276;
+        padding: 6px 0;
+        margin: 24px -48px 18px;
+        page-break-after: avoid;
+      }
+
+      .part-num { background: #D6EAF8 !important; color: #1A5276 !important; }
+
+      /* Callouts */
+      .callout.orange, .callout.purple { background: white !important; }
+      .callout.blue {
+        background: #D6EAF8 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .callout { page-break-inside: avoid; }
+      .answer-ta { background: white; }
+      .answer-line::placeholder, .answer-ta::placeholder { color: transparent; }
+      .question { page-break-inside: avoid; }
+      .data-table-wrap { page-break-inside: avoid; }
+      .pulse-grid { page-break-inside: avoid; }
+      .objectives { background: white !important; }
+
+      /* Footer: fixed so it repeats on every printed page */
+      .ws-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white !important;
+        border-top: 2px solid #1A5276;
+        padding: 7px 0.65in;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .ws-footer span { color: #4A5568 !important; font-size: 9px; }
+
+      @page { margin: 0.65in 0.65in 0.9in 0.65in; }
+    }
+
+    @media (max-width: 640px) {
+      .content { padding: 24px 20px; }
+      .title-block { padding: 24px 20px; }
+      .part-header { margin: 28px -20px 20px; }
+      .meta-row { grid-template-columns: 1fr; gap: 12px; }
+      .pulse-grid { grid-template-columns: 1fr; }
+      .ws-footer { padding: 12px 20px; flex-direction: column; gap: 4px; text-align: center; }
+      .answer-ta { margin-left: 0; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="screen-bar">
+  <a class="logo" href="index.html" style="text-decoration:none;">RABI OSCILLATIONS</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="#" class="active">Worksheet</a>
+  </nav>
+  <button class="print-btn" onclick="window.print()">Print / Save PDF</button>
+</div>
+
+<div class="page">
+
+  <div class="title-block">
+    <h1>Rabi Oscillations Simulation</h1>
+    <div class="subtitle">Student Worksheet</div>
+  </div>
+
+  <div class="content">
+
+    <div class="print-header">
+      <div class="print-header-row">
+        <div class="ph-field wide"><span class="ph-label">Name</span><span class="ph-line"></span></div>
+        <div class="ph-field narrow"><span class="ph-label">Date</span><span class="ph-line"></span></div>
+        <div class="ph-field narrow"><span class="ph-label">Period</span><span class="ph-line"></span></div>
+      </div>
+      <div class="print-header-row">
+        <div class="ph-field wide"><span class="ph-label">Class</span><span class="ph-line"></span></div>
+        <div class="ph-field wide"><span class="ph-label">Teacher</span><span class="ph-line"></span></div>
+      </div>
+    </div>
+
+    <!-- Screen-only name / grade fields -->
+    <div class="student-info-row">
+      <div class="si-field wide">
+        <label class="si-label" for="si-name">Name</label>
+        <input class="si-input" id="si-name" type="text" placeholder="Your full name" data-qid="student_name" autocomplete="name">
+      </div>
+      <div class="si-field narrow">
+        <label class="si-label" for="si-grade">Grade</label>
+        <input class="si-input" id="si-grade" type="text" placeholder="e.g. 11" data-qid="student_grade" autocomplete="off">
+      </div>
+    </div>
+
+    <!-- PART I -->
+    <div class="part-header"><span class="part-num">PART I</span> Background Reading</div>
+
+    <p style="font-size:13px; color:var(--muted); margin-bottom:14px; font-style:italic;">Read carefully before opening the simulation.</p>
+
+    <div class="callout orange">
+      <div class="callout-label">The Classical Analogy : A Playground Swing</div>
+      <p>Imagine pushing a child on a swing. If you push at random times, very little energy transfers. But if you push at exactly the right moment every cycle, the swing gets higher and higher. You are driving the system at its <strong>natural (resonant) frequency</strong>. This is resonance: maximum energy transfer when the driving frequency matches the system's natural frequency.</p>
+    </div>
+
+    <div class="callout blue">
+      <div class="callout-label">The Quantum Twist : A Qubit</div>
+      <p>A qubit is a quantum two-level system. Instead of 0 or 1, it can be in a <strong>superposition</strong> of both states simultaneously. When a laser or microwave pulse is tuned to the qubit's transition frequency, the qubit does not just gain energy like a swing. It cycles its state smoothly between |0&rang; and |1&rang;. The rate of this cycling is the <strong>Rabi frequency (&Omega;)</strong>. Turning the laser off mid-cycle freezes the qubit in superposition. This is a Rabi oscillation.</p>
+    </div>
+
+    <!-- PART II -->
+    <div class="part-header"><span class="part-num">PART II</span> Before You Start</div>
+
+    <p style="font-size:13px; color:var(--muted); margin-bottom:16px; font-style:italic;">Answer using the background reading and your prior knowledge only.</p>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">1.</span><span>In your own words, what is resonance? Give one example from everyday life that is <em>not</em> the swing.</span></div>
+      <div class="answer-inputs">
+        <input class="answer-line" type="text" placeholder="Answer..." data-qid="q1_a">
+        <input class="answer-line" type="text" placeholder="" data-qid="q1_b">
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">2.</span><span>A classical system driven at resonance grows in amplitude over time. Predict what will happen to a qubit driven at its resonant frequency. Will it keep gaining energy forever? Why or why not?</span></div>
+      <textarea class="answer-ta" rows="3" placeholder="Your prediction..." data-qid="q2"></textarea>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">3.</span><span>What does it mean for a qubit to be in a 50/50 superposition of |0&rang; and |1&rang;?</span></div>
+      <textarea class="answer-ta" rows="3" placeholder="Your answer..." data-qid="q3"></textarea>
+    </div>
+
+    <!-- PART III -->
+    <div class="part-header"><span class="part-num">PART III</span> Simulation Exploration</div>
+
+    <p style="font-size:13px; color:var(--muted); margin-bottom:20px; font-style:italic;">Open the simulation. Start with default settings: &Omega; = 1.0 rad/t, &Delta; = 0.</p>
+
+    <div class="activity-label">Activity A : Effect of Rabi Frequency (&Omega;)</div>
+    <div class="activity-desc">Keep &Delta; = 0 (perfect resonance). Vary &Omega; and record observations.</div>
+
+    <div class="callout blue" style="padding:10px 16px; margin-bottom:14px;">
+      <div class="callout-label">Time to Full Inversion</div>
+      <p style="font-family:'Space Mono',monospace; font-size:13px; color:var(--blue-mid);">t<sub>inv</sub> = &pi; / &Omega;</p>
+    </div>
+
+    <div class="data-table-wrap">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>&Omega; (rad/t)</th>
+            <th>Describe oscillation speed</th>
+            <th>Does |1&rang; reach 100%?</th>
+            <th>Approx. time to full inversion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="given">0.5</td><td><input type="text" data-qid="a_a_0p5_speed"></td><td><input type="text" data-qid="a_a_0p5_reach"></td><td><input type="text" data-qid="a_a_0p5_time"></td></tr>
+          <tr><td class="given">1.0</td><td><input type="text" data-qid="a_a_1p0_speed"></td><td><input type="text" data-qid="a_a_1p0_reach"></td><td><input type="text" data-qid="a_a_1p0_time"></td></tr>
+          <tr><td class="given">2.0</td><td><input type="text" data-qid="a_a_2p0_speed"></td><td><input type="text" data-qid="a_a_2p0_reach"></td><td><input type="text" data-qid="a_a_2p0_time"></td></tr>
+          <tr><td class="given">3.0</td><td><input type="text" data-qid="a_a_3p0_speed"></td><td><input type="text" data-qid="a_a_3p0_reach"></td><td><input type="text" data-qid="a_a_3p0_time"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">4.</span><span>What pattern do you notice? How does changing &Omega; affect how fast the qubit oscillates?</span></div>
+      <textarea class="answer-ta" rows="2" placeholder="Your rule..." data-qid="q4"></textarea>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">5.</span><span>At &Delta; = 0, does P(|1&rang;) ever go above 100%? Why not?</span></div>
+      <textarea class="answer-ta" rows="2" placeholder="Your explanation..." data-qid="q5"></textarea>
+    </div>
+
+    <hr class="divider">
+
+    <div class="activity-label">Activity B : Effect of Detuning (&Delta;)</div>
+    <div class="activity-desc">Set &Omega; = 1.0 rad/t. Vary &Delta; and complete the table. Calculate &Omega;<sub>R</sub> for the blank rows.</div>
+
+    <div class="callout blue" style="padding:10px 16px; margin-bottom:14px;">
+      <div class="callout-label">Formula</div>
+      <p style="font-family:'Space Mono',monospace; font-size:13px; color:var(--blue);">&Omega;<sub>R</sub> = &radic;(&Omega;&sup2; + &Delta;&sup2;)</p>
+    </div>
+
+    <div class="data-table-wrap">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>&Delta;</th>
+            <th>&Omega;<sub>R</sub> = &radic;(&Omega;&sup2; + &Delta;&sup2;)</th>
+            <th>Max P(|1&rang;) reached</th>
+            <th>Faster or slower than &Delta;=0?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="given">0.0</td><td class="given">1.00</td><td><input type="text" data-qid="a_b_0p0_max"></td><td><input type="text" data-qid="a_b_0p0_speed"></td></tr>
+          <tr><td class="given">0.5</td><td><input type="text" data-qid="a_b_0p5_omega"></td><td><input type="text" data-qid="a_b_0p5_max"></td><td><input type="text" data-qid="a_b_0p5_speed"></td></tr>
+          <tr><td class="given">1.0</td><td><input type="text" data-qid="a_b_1p0_omega"></td><td><input type="text" data-qid="a_b_1p0_max"></td><td><input type="text" data-qid="a_b_1p0_speed"></td></tr>
+          <tr><td class="given">2.0</td><td><input type="text" data-qid="a_b_2p0_omega"></td><td><input type="text" data-qid="a_b_2p0_max"></td><td><input type="text" data-qid="a_b_2p0_speed"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">6.</span><span>As you increase &Delta;, what happens to how high P(|1&rang;) gets? Why can't the qubit fully flip when the frequency is off?</span></div>
+      <textarea class="answer-ta" rows="3" placeholder="Your answer..." data-qid="q6"></textarea>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">7.</span><span>Does a bigger &Delta; speed up or slow down the oscillation? Does that match what the &Omega;<sub>R</sub> formula predicts?</span></div>
+      <textarea class="answer-ta" rows="2" placeholder="Your answer..." data-qid="q7"></textarea>
+    </div>
+
+    <hr class="divider">
+
+    <div class="activity-label">Activity C : Pulses and Quantum Gates</div>
+    <div class="activity-desc">Reset to &Delta; = 0, &Omega; = 1.0. Use the pulse buttons and record results.</div>
+
+    <div class="pulse-grid">
+      <div class="pulse-card pi2">
+        <div class="pulse-card-header">&pi;/2 Pulse : Superposition Gate</div>
+        <div class="pulse-card-body">
+          <div class="pulse-field"><label>P(|0&rang;) after pulse:</label><input type="text" placeholder="____%" data-qid="c_pi2_p0"></div>
+          <div class="pulse-field"><label>P(|1&rang;) after pulse:</label><input type="text" placeholder="____%" data-qid="c_pi2_p1"></div>
+          <div class="pulse-field"><label>Gate name:</label><input type="text" placeholder="e.g. Hadamard..." data-qid="c_pi2_gate"></div>
+        </div>
+      </div>
+      <div class="pulse-card pi">
+        <div class="pulse-card-header">&pi; Pulse : Inversion Gate</div>
+        <div class="pulse-card-body">
+          <div class="pulse-field"><label>P(|0&rang;) after pulse:</label><input type="text" placeholder="____%" data-qid="c_pi_p0"></div>
+          <div class="pulse-field"><label>P(|1&rang;) after pulse:</label><input type="text" placeholder="____%" data-qid="c_pi_p1"></div>
+          <div class="pulse-field"><label>Gate name:</label><input type="text" placeholder="e.g. NOT gate..." data-qid="c_pi_gate"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">8.</span><span>After a &pi;/2 pulse with the laser off, you measure the qubit many times. What result do you expect on average? Why?</span></div>
+      <textarea class="answer-ta" rows="2" placeholder="Your answer..." data-qid="q8"></textarea>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">9.</span><span>Apply two &pi; pulses in a row starting from |0&rang;. Predict the result first, then verify in the simulation.</span></div>
+      <div class="sub-question">a) My prediction:</div>
+      <div class="answer-inputs"><input class="answer-line" type="text" placeholder="Predict before trying..." data-qid="q9a"></div>
+      <div class="sub-question">b) What the simulation showed:</div>
+      <div class="answer-inputs"><input class="answer-line" type="text" placeholder="After testing..." data-qid="q9b"></div>
+    </div>
+
+    <!-- PART IV -->
+    <div class="part-header"><span class="part-num">PART IV</span> Analysis and Synthesis</div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">10.</span><span>How are Rabi oscillations similar to a swing? What is one way they are completely different?</span></div>
+      <div class="sub-question">a) One similarity:</div>
+      <div class="answer-inputs"><input class="answer-line" type="text" placeholder="" data-qid="q10a"></div>
+      <div class="sub-question">b) One fundamental difference:</div>
+      <div class="answer-inputs"><input class="answer-line" type="text" placeholder="" data-qid="q10b"></div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">11.</span><span>If you were using this to flip a qubit in a real quantum computer, what two things could cause it to go wrong?</span></div>
+      <div class="sub-question">a) Factor 1:</div>
+      <div class="answer-inputs"><input class="answer-line" type="text" placeholder="" data-qid="q11a"></div>
+      <div class="sub-question">b) Factor 2:</div>
+      <div class="answer-inputs"><input class="answer-line" type="text" placeholder="" data-qid="q11b"></div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">12.</span><span>The second is defined by 9,192,631,770 oscillations of a cesium-133 atom (a Rabi-type transition). Why would scientists define time using an atomic oscillation instead of a mechanical clock?</span></div>
+      <textarea class="answer-ta" rows="4" placeholder="Your answer..." data-qid="q12"></textarea>
+    </div>
+
+  </div>
+
+  <div class="download-bar">
+    <p>Print or save as PDF to get a clean, classroom-ready copy with fill-in fields.</p>
+    <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+      <button class="download-btn" onclick="window.print()">&#8595; Download PDF</button>
+      <a class="download-btn" id="answer-key-btn" href="answer-key.html" target="_blank" style="text-decoration:none; opacity:0.35; pointer-events:none; cursor:not-allowed;" aria-disabled="true" title="Fill in all answers to unlock">&#10003; Answer Key</a>
+    </div>
+  </div>
+
+
+</div>
+
+<!-- ── Supabase auto-save ───────────────────────────────────────────── -->
+<script>
+(function () {
+  // ── CONFIG ── Replace these two values with your own project details ──
+  const SUPABASE_URL    = 'https://hitybuefnjmmoakqbpcf.supabase.co';
+  const SUPABASE_ANON   = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhpdHlidWVmbmptbW9ha3FicGNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1NjY5MTAsImV4cCI6MjA5MzE0MjkxMH0.eOhPURVM6N3v9tUuUhqcoIUZG7jFW7kfFTItS05qROE';
+  const TABLE           = 'worksheet_responses';
+  // ─────────────────────────────────────────────────────────────────────
+
+  /* Session ID: persisted in localStorage so the student can resume */
+  function getSessionId() {
+    let id = localStorage.getItem('rabi_session_id');
+    if (!id) {
+      id = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        const r = Math.random() * 16 | 0;
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+      });
+      localStorage.setItem('rabi_session_id', id);
+    }
+    return id;
+  }
+
+  const SESSION_ID = getSessionId();
+
+  /* Status indicator injected into the download bar */
+  const statusEl = document.createElement('span');
+  statusEl.id = 'save-status';
+  statusEl.style.cssText = [
+    'font-family:"Space Mono",monospace',
+    'font-size:11px',
+    'color:#718096',
+    'margin-top:4px',
+    'min-height:16px',
+    'display:block',
+    'text-align:center'
+  ].join(';');
+  const downloadBar = document.querySelector('.download-bar');
+  if (downloadBar) downloadBar.appendChild(statusEl);
+
+  function setStatus(msg, color) {
+    statusEl.textContent = msg;
+    statusEl.style.color = color || '#718096';
+  }
+
+  /* Upsert a single answer to Supabase */
+  async function saveAnswer(questionId, answer) {
+    const body = JSON.stringify({
+      session_id:  SESSION_ID,
+      question_id: questionId,
+      answer:      answer,
+      updated_at:  new Date().toISOString()
+    });
+    try {
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/${TABLE}?on_conflict=session_id,question_id`,
+        {
+          method:  'POST',
+          headers: {
+            'Content-Type':  'application/json',
+            'apikey':         SUPABASE_ANON,
+            'Authorization': `Bearer ${SUPABASE_ANON}`,
+            'Prefer':        'resolution=merge-duplicates'
+          },
+          body
+        }
+      );
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setStatus('✓ Saved', '#16a34a');
+    } catch (err) {
+      setStatus('⚠ Save failed — check connection', '#c0392b');
+      console.warn('[Rabi save]', err);
+    }
+  }
+
+  /* Load all saved answers for this session on page load — returns promise */
+  async function loadAnswers() {
+    try {
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/${TABLE}?session_id=eq.${SESSION_ID}&select=question_id,answer`,
+        {
+          headers: {
+            'apikey':         SUPABASE_ANON,
+            'Authorization': `Bearer ${SUPABASE_ANON}`
+          }
+        }
+      );
+      if (!res.ok) return;
+      const rows = await res.json();
+      rows.forEach(({ question_id, answer }) => {
+        const el = document.querySelector(`[data-qid="${question_id}"]`);
+        if (el && answer != null) el.value = answer;
+      });
+      if (rows.length > 0) setStatus(`✓ Restored ${rows.length} saved answer${rows.length > 1 ? 's' : ''}`, '#16a34a');
+    } catch (err) {
+      console.warn('[Rabi load]', err);
+    }
+  }
+
+  /* Debounce helper */
+  function debounce(fn, ms) {
+    let timer;
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => fn.apply(this, args), ms);
+    };
+  }
+
+  /* Answer Key lock/unlock */
+  const answerKeyBtn = document.getElementById('answer-key-btn');
+
+  function updateAnswerKeyLock() {
+    const els = document.querySelectorAll('[data-qid]');
+    const allFilled = Array.from(els).every(el => el.value.trim() !== '');
+    if (allFilled) {
+      answerKeyBtn.style.opacity        = '1';
+      answerKeyBtn.style.pointerEvents  = 'auto';
+      answerKeyBtn.style.cursor         = 'pointer';
+      answerKeyBtn.removeAttribute('aria-disabled');
+      answerKeyBtn.title                = '';
+    } else {
+      answerKeyBtn.style.opacity        = '0.35';
+      answerKeyBtn.style.pointerEvents  = 'none';
+      answerKeyBtn.style.cursor         = 'not-allowed';
+      answerKeyBtn.setAttribute('aria-disabled', 'true');
+      const filled = Array.from(els).filter(el => el.value.trim() !== '').length;
+      answerKeyBtn.title = `${els.length - filled} answer${els.length - filled !== 1 ? 's' : ''} remaining`;
+    }
+  }
+
+  /* Attach listeners to every tagged input / textarea */
+  function attachListeners() {
+    const els = document.querySelectorAll('[data-qid]');
+    els.forEach(el => {
+      const qid = el.dataset.qid;
+      const handler = debounce(function () {
+        setStatus('Saving…', '#718096');
+        saveAnswer(qid, el.value);
+      }, 800);
+      el.addEventListener('input', handler);
+      el.addEventListener('input', updateAnswerKeyLock);
+    });
+  }
+
+  /* Boot */
+  attachListeners();
+  loadAnswers().then(updateAnswerKeyLock);
+})();
+</script>
+
+</body>
+</html>
