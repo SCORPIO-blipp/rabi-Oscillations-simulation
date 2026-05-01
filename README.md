@@ -2,16 +2,16 @@
 
 **[rabi-oscillations-simulation.vercel.app](https://rabi-oscillations-simulation.vercel.app)**
 
-An interactive quantum physics simulation and student worksheet I built for teaching Rabi oscillations at the high school and introductory college level. The site lets students manipulate a real quantum two-level system in their browser, observe how the qubit state evolves, and complete a structured worksheet that auto-saves their answers to a database.
+An interactive quantum physics simulation and student worksheet built for teaching Rabi oscillations at the high school level. The site lets students use a quantum two-level system simulation, observe how the qubit state changes, and do a structured worksheet that auto-saves their answers to a database.
 
 ---
 
 ## What I Built
 
-### Interactive Simulation (`/`)
-The main page is a live Rabi oscillation simulator. Students can drag sliders to adjust the Rabi frequency (Ω) and detuning (Δ) and watch the qubit state update in real time across two visualizations:
+### Interactive Simulation (`Index`)
+The main page is a live Rabi oscillation simulator. Students can drag sliders to adjust the Rabi frequency (Ω) and detuning (Δ) and watch the qubit state update across two seperate visualizations:
 
-- **Bloch sphere** — a 3D orthographic projection drawn on an HTML Canvas showing exactly where the qubit state sits at any moment
+- **Bloch sphere** — a 3D orthographic projection drawn showing exactly where the qubit state sits at any moment
 - **Probability chart** — a live Chart.js plot of P(|0⟩) and P(|1⟩) over time, with an animated marker tracking the current state
 
 π and π/2 pulse buttons let students apply quantum gates directly and see the result immediately. All physics runs client-side using the exact Rabi oscillation equations — no approximations.
@@ -20,7 +20,7 @@ The main page is a live Rabi oscillation simulator. Students can drag sliders to
 A standalone explainer page covering the background physics: resonance, two-level systems, the Rabi frequency, detuning, and how this connects to real quantum computing hardware. Written to be accessible to students encountering quantum mechanics for the first time.
 
 ### Student Worksheet (`/worksheet`)
-A classroom-ready worksheet with 12 questions across four sections:
+A worksheet with 12 questions across four sections:
 
 - **Part I** — Background reading (classical resonance analogy + quantum twist)
 - **Part II** — Pre-simulation predictions students answer before touching the sim
